@@ -32,9 +32,17 @@ export class VideoPlayer {
       _this.resizeVideo();
     }, true);
 
-    this.video.srcObject = this.localStream;
+    // secondly video
+    this.localStream2 = new MediaStream();
+    this.videoThumb = elements[1];
+    this.videoThumb.playsInline = true;
+    this.videoThumb.addEventListener('loadedmetadata', function () {
+      _this.videoThumb.play();
+    }, true);
 
+    this.videoTrackList = [];
     this.videoTrackIndex = 0;
+    this.maxVideoTrackLength = 2;
 
     this.ondisconnect = function () { };
   }
@@ -71,10 +79,13 @@ export class VideoPlayer {
     };
     this.pc.ontrack = function (e) {
       if (e.track.kind == 'video') {
-        _this.localStream.addTrack(e.track);
+        _this.videoTrackList.push(e.track);
       }
       if (e.track.kind == 'audio') {
         _this.localStream.addTrack(e.track);
+      }
+      if (_this.videoTrackList.length == _this.maxVideoTrackLength) {
+        _this.switchVideo(_this.videoTrackIndex);
       }
     };
     this.pc.onicecandidate = function (e) {
@@ -106,7 +117,7 @@ export class VideoPlayer {
       _this.videoTrackIndex = bytes[1];
       switch (bytes[0]) {
         case UnityEventType.SWITCH_VIDEO:
-          //_this.switchVideo(_this.videoTrackIndex);
+          _this.switchVideo(_this.videoTrackIndex);
           break;
       }
     };
@@ -131,6 +142,7 @@ export class VideoPlayer {
     // It can receive two video tracks and one audio track from Unity app.
     // This operation is required to generate offer SDP correctly.
     this.pc.addTransceiver('video', { direction: 'recvonly' });
+    this.pc.addTransceiver('video', { direction: 'recvonly' });
     this.pc.addTransceiver('audio', { direction: 'recvonly' });
 
     // create offer
@@ -152,6 +164,32 @@ export class VideoPlayer {
     const videoOffsetY = videoRatio > clientRatio ? (clientRect.height - this.videoHeight * this._videoScale) * 0.5 : 0;
     this._videoOriginX = clientRect.left + videoOffsetX;
     this._videoOriginY = clientRect.top + videoOffsetY;
+  }
+
+  // switch streaming destination main video and secondly video
+  switchVideo(indexVideoTrack) {
+    this.video.srcObject = this.localStream;
+    this.videoThumb.srcObject = this.localStream2;
+
+    if (indexVideoTrack == 0) {
+      this.replaceTrack(this.localStream, this.videoTrackList[0]);
+      this.replaceTrack(this.localStream2, this.videoTrackList[1]);
+    }
+    else {
+      this.replaceTrack(this.localStream, this.videoTrackList[1]);
+      this.replaceTrack(this.localStream2, this.videoTrackList[0]);
+    }
+  }
+
+  // replace video track related the MediaStream
+  replaceTrack(stream, newTrack) {
+    const tracks = stream.getVideoTracks();
+    for (const track of tracks) {
+      if (track.kind == 'video') {
+        stream.removeTrack(track);
+      }
+    }
+    stream.addTrack(newTrack);
   }
 
   get videoWidth() {
