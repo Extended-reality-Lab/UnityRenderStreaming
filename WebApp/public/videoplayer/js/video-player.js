@@ -16,7 +16,7 @@ function uuid4() {
 }
 
 export class VideoPlayer {
-  constructor(elements) {
+  constructor(player, userSelectDiv) {
     const _this = this;
     this.cfg = Config.getRTCConfiguration();
     this.pc = null;
@@ -25,20 +25,18 @@ export class VideoPlayer {
 
     // main video
     this.localStream = new MediaStream();
-    this.video = elements[0];
+    this.video = player;
     this.video.playsInline = true;
     this.video.addEventListener('loadedmetadata', function () {
       _this.video.play();
       _this.resizeVideo();
     }, true);
 
-    // secondly video
-    this.localStream2 = new MediaStream();
-    this.videoThumb = elements[1];
-    this.videoThumb.playsInline = true;
-    this.videoThumb.addEventListener('loadedmetadata', function () {
-      _this.videoThumb.play();
-    }, true);
+    this.userSelectDiv = userSelectDiv;
+    this.userSelect = document.getElementById('users');
+    this.userSelect.addEventListener('input', function (e) {
+      _this.replaceTrack(_this.localStream, _this.videoTrackList[e.target.value]);
+    })
 
     this.videoTrackList = [];
     this.videoTrackIndex = 0;
@@ -80,12 +78,20 @@ export class VideoPlayer {
     this.pc.ontrack = function (e) {
       if (e.track.kind == 'video') {
         _this.videoTrackList.push(e.track);
+
+        let newOpt = document.createElement('option');
+        newOpt.value = _this.videoTrackList.length - 1;
+        newOpt.innerHTML = "User " + _this.videoTrackList.length;
+        _this.userSelect.appendChild(newOpt);
       }
       if (e.track.kind == 'audio') {
         _this.localStream.addTrack(e.track);
       }
-      if (_this.videoTrackList.length == _this.maxVideoTrackLength) {
-        _this.switchVideo(_this.videoTrackIndex);
+      if (_this.videoTrackList.length == 1) {
+        _this.video.srcObject = _this.localStream;
+        _this.replaceTrack(_this.localStream, _this.videoTrackList[0]);
+      
+        _this.userSelectDiv.hidden = false;
       }
     };
     this.pc.onicecandidate = function (e) {
@@ -113,13 +119,13 @@ export class VideoPlayer {
       } else {
         data = msg.data;
       }
-      const bytes = new Uint8Array(data);
-      _this.videoTrackIndex = bytes[1];
-      switch (bytes[0]) {
-        case UnityEventType.SWITCH_VIDEO:
-          _this.switchVideo(_this.videoTrackIndex);
-          break;
-      }
+      // const bytes = new Uint8Array(data);
+      // _this.videoTrackIndex = bytes[1];
+      // switch (bytes[0]) {
+      //   case UnityEventType.SWITCH_VIDEO:
+      //     _this.switchVideo(_this.videoTrackIndex);
+      //     break;
+      // }
     };
 
     this.signaling.addEventListener('answer', async (e) => {
@@ -164,21 +170,6 @@ export class VideoPlayer {
     const videoOffsetY = videoRatio > clientRatio ? (clientRect.height - this.videoHeight * this._videoScale) * 0.5 : 0;
     this._videoOriginX = clientRect.left + videoOffsetX;
     this._videoOriginY = clientRect.top + videoOffsetY;
-  }
-
-  // switch streaming destination main video and secondly video
-  switchVideo(indexVideoTrack) {
-    this.video.srcObject = this.localStream;
-    this.videoThumb.srcObject = this.localStream2;
-
-    if (indexVideoTrack == 0) {
-      this.replaceTrack(this.localStream, this.videoTrackList[0]);
-      this.replaceTrack(this.localStream2, this.videoTrackList[1]);
-    }
-    else {
-      this.replaceTrack(this.localStream, this.videoTrackList[1]);
-      this.replaceTrack(this.localStream2, this.videoTrackList[0]);
-    }
   }
 
   // replace video track related the MediaStream

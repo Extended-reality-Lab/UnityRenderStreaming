@@ -52,46 +52,24 @@ function onClickPlayButton() {
 
   const playerDiv = document.getElementById('player');
 
+  const userSelectDiv = document.getElementById('user-select');
+
   // add video player
   const elementVideo = document.createElement('video');
   elementVideo.id = 'Video';
   elementVideo.style.touchAction = 'none';
   playerDiv.appendChild(elementVideo);
 
-  // add video thumbnail
-  const elementVideoThumb = document.createElement('video');
-  elementVideoThumb.id = 'VideoThumbnail';
-  elementVideoThumb.style.touchAction = 'none';
-  playerDiv.appendChild(elementVideoThumb);
+  setupVideoPlayer(elementVideo, userSelectDiv).then(value => videoPlayer = value);
 
-  setupVideoPlayer([elementVideo, elementVideoThumb]).then(value => videoPlayer = value);
-
-  // add blue button
-  const elementBlueButton = document.createElement('button');
-  elementBlueButton.id = "blueButton";
-  elementBlueButton.innerHTML = "Light on";
-  playerDiv.appendChild(elementBlueButton);
-  elementBlueButton.addEventListener("click", function () {
-    sendClickEvent(videoPlayer, 1);
-  });
-
-  // add green button
-  const elementGreenButton = document.createElement('button');
-  elementGreenButton.id = "greenButton";
-  elementGreenButton.innerHTML = "Light off";
-  playerDiv.appendChild(elementGreenButton);
-  elementGreenButton.addEventListener("click", function () {
-    sendClickEvent(videoPlayer, 2);
-  });
-
-  // add orange button
-  const elementOrangeButton = document.createElement('button');
-  elementOrangeButton.id = "orangeButton";
-  elementOrangeButton.innerHTML = "Play audio";
-  playerDiv.appendChild(elementOrangeButton);
-  elementOrangeButton.addEventListener("click", function () {
-    sendClickEvent(videoPlayer, 3);
-  });
+  // // add blue button
+  // const elementBlueButton = document.createElement('button');
+  // elementBlueButton.id = "blueButton";
+  // elementBlueButton.innerHTML = "Light on";
+  // playerDiv.appendChild(elementBlueButton);
+  // elementBlueButton.addEventListener("click", function () {
+  //   sendClickEvent(videoPlayer, 1);
+  // });
 
   // add fullscreen button
   const elementFullscreenButton = document.createElement('img');
@@ -129,14 +107,14 @@ function onClickPlayButton() {
   }
 }
 
-async function setupVideoPlayer(elements) {
-  const videoPlayer = new VideoPlayer(elements);
+async function setupVideoPlayer(elements, userSelectDiv) {
+  const videoPlayer = new VideoPlayer(elements, userSelectDiv);
   await videoPlayer.setupConnection(useWebSocket);
 
   videoPlayer.ondisconnect = onDisconnect;
   registerGamepadEvents(videoPlayer);
   registerKeyboardEvents(videoPlayer);
-  registerMouseEvents(videoPlayer, elements[0]);
+  registerMouseEvents(videoPlayer, elements);
 
   return videoPlayer;
 }
