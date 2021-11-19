@@ -370,6 +370,7 @@ export function registerMouseEvents(videoPlayer, playerElement) {
     data.setInt16(1, x, true);
     data.setInt16(3, y, true);
     data.setUint8(5, e.buttons);
+    //data.setUint8(6, _videoPlayer.userId);
     _videoPlayer && _videoPlayer.sendMsg(data.buffer);
   }
 

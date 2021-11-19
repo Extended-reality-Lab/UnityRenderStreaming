@@ -35,7 +35,7 @@ export class VideoPlayer {
     this.userSelectDiv = userSelectDiv;
     this.userSelect = document.getElementById('users');
     this.userSelect.addEventListener('input', function (e) {
-      _this.replaceTrack(_this.localStream, _this.videoTrackList[e.target.value]);
+      _this.replaceTrack(_this.localStream, e.target.value);
     })
 
     this.videoTrackList = [];
@@ -89,7 +89,7 @@ export class VideoPlayer {
       }
       if (_this.videoTrackList.length == 1) {
         _this.video.srcObject = _this.localStream;
-        _this.replaceTrack(_this.localStream, _this.videoTrackList[0]);
+        _this.replaceTrack(_this.localStream, 0);
       
         _this.userSelectDiv.hidden = false;
       }
@@ -174,13 +174,15 @@ export class VideoPlayer {
 
   // replace video track related the MediaStream
   replaceTrack(stream, newTrack) {
+    this.userId = newTrack;
+
     const tracks = stream.getVideoTracks();
     for (const track of tracks) {
       if (track.kind == 'video') {
         stream.removeTrack(track);
       }
     }
-    stream.addTrack(newTrack);
+    stream.addTrack(this.videoTrackList[newTrack]);
   }
 
   get videoWidth() {
