@@ -39,7 +39,6 @@ export class VideoPlayer {
     })
 
     this.videoTrackList = [];
-    this.videoTrackIndex = 0;
     this.maxVideoTrackLength = 2;
 
     this.ondisconnect = function () { };
@@ -91,7 +90,7 @@ export class VideoPlayer {
         _this.video.srcObject = _this.localStream;
         _this.replaceTrack(_this.localStream, 0);
       
-        _this.userSelectDiv.hidden = false;
+        //_this.userSelectDiv.hidden = false;
       }
     };
     this.pc.onicecandidate = function (e) {
@@ -101,8 +100,9 @@ export class VideoPlayer {
     };
     // Create data channel with proxy server and set up handlers
     this.channel = this.pc.createDataChannel('data');
-    this.channel.onopen = function () {
+    this.channel.onopen = function (ev) {
       Logger.log('Datachannel connected.');
+      Logger.log(ev);
     };
     this.channel.onerror = function (e) {
       Logger.log("The error " + e.error.message + " occurred\n while handling data with proxy server.");
@@ -111,6 +111,7 @@ export class VideoPlayer {
       Logger.log('Datachannel disconnected.');
     };
     this.channel.onmessage = async (msg) => {
+      console.log(msg);
       // receive message from unity and operate message
       let data;
       // receive message data type is blob only on Firefox
@@ -119,13 +120,12 @@ export class VideoPlayer {
       } else {
         data = msg.data;
       }
-      // const bytes = new Uint8Array(data);
-      // _this.videoTrackIndex = bytes[1];
-      // switch (bytes[0]) {
-      //   case UnityEventType.SWITCH_VIDEO:
-      //     _this.switchVideo(_this.videoTrackIndex);
-      //     break;
-      // }
+      const bytes = new Uint8Array(data);
+      switch (bytes[0]) {
+        case UnityEventType.SWITCH_VIDEO:
+          _this.replaceTrack(_this.localStream, bytes[1]);
+          break;
+      }
     };
 
     this.signaling.addEventListener('answer', async (e) => {
@@ -137,6 +137,7 @@ export class VideoPlayer {
     this.signaling.addEventListener('candidate', async (e) => {
       const candidate = e.detail;
       const iceCandidate = new RTCIceCandidate({ candidate: candidate.candidate, sdpMid: candidate.sdpMid, sdpMLineIndex: candidate.sdpMLineIndex });
+      console.log(e);
       await _this.pc.addIceCandidate(iceCandidate);
     });
 
