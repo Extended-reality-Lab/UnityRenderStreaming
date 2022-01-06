@@ -6,6 +6,8 @@ import {
   getServerConfig 
 } from "../../js/config.js";
 
+import { registerGamepadEvents, registerKeyboardEvents, registerMouseEvents, sendClickEvent } from "../../js/register-events.js";
+
 setup();
 
 let playButton;
@@ -102,7 +104,12 @@ function onClickPlayButton() {
 async function setupVideoPlayer(elements) {
   const videoPlayer = new VideoPlayer(elements);
   await videoPlayer.setupConnection(useWebSocket);
+
   videoPlayer.ondisconnect = onDisconnect;
+  registerGamepadEvents(videoPlayer);
+  registerKeyboardEvents(videoPlayer);
+  registerMouseEvents(videoPlayer, elements[0]);
+
   return videoPlayer;
 }
 
