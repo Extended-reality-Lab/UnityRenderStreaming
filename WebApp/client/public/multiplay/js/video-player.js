@@ -101,35 +101,12 @@ export class VideoPlayer {
         this.signaling.sendCandidate(_this.connectionId, e.candidate.candidate, e.candidate.sdpMid, e.candidate.sdpMLineIndex);
       }
     }.bind(this);
+
     // Create data channel with proxy server and set up handlers
-    // Create data channel with proxy server and set up handlers
-    this.channel = this.pc.createDataChannel('data');
-    this.channel.onopen = function () {
-      Logger.log('Datachannel connected.');
-    };
-    this.channel.onerror = function (e) {
-      Logger.log("The error " + e.error.message + " occurred\n while handling data with proxy server.");
-    };
-    this.channel.onclose = function () {
-      Logger.log('Datachannel disconnected.');
-    };
-    this.channel.onmessage = async (msg) => {
-      // receive message from unity and operate message
-      let data;
-      // receive message data type is blob only on Firefox
-      if (navigator.userAgent.indexOf('Firefox') != -1) {
-        data = await msg.data.arrayBuffer();
-      } else {
-        data = msg.data;
-      }
-      const bytes = new Uint8Array(data);
-      _this.videoTrackIndex = bytes[1];
-      switch (bytes[0]) {
-        case UnityEventType.SWITCH_VIDEO:
-          _this.switchVideo(_this.videoTrackIndex);
-          break;
-      }
-    };
+    this.inputSenderChannel = this.pc.createDataChannel("input");
+    this.inputSenderChannel.onopen = this._onOpenInputSenderChannel.bind(this);
+
+    this.inputRemoting.subscribe(new Observer(this.inputSenderChannel));
 
     this.signaling.addEventListener('answer', async (e) => {
       const answer = e.detail;

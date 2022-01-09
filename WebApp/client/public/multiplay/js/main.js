@@ -105,10 +105,17 @@ async function setupVideoPlayer(elements) {
   const videoPlayer = new VideoPlayer(elements);
   await videoPlayer.setupConnection(useWebSocket);
 
+  elements[0].addEventListener('mousedown', e => {
+    elements[0].requestPointerLock = elements[0].requestPointerLock || elements[0].mozRequestPointerLock;
+    elements[0].requestPointerLock();
+  })
+
+  elements[0].addEventListener('mouseup', e => {
+    document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
+    document.exitPointerLock();
+  })
+
   videoPlayer.ondisconnect = onDisconnect;
-  registerGamepadEvents(videoPlayer);
-  registerKeyboardEvents(videoPlayer);
-  registerMouseEvents(videoPlayer, elements[0]);
 
   return videoPlayer;
 }
