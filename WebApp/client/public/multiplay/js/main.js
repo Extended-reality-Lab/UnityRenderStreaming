@@ -45,7 +45,7 @@ function showPlayButton() {
   if (!document.getElementById('playButton')) {
     let elementPlayButton = document.createElement('img');
     elementPlayButton.id = 'playButton';
-    elementPlayButton.src = 'images/Play.png';
+    elementPlayButton.src = 'multiplay/images/Play.png';
     elementPlayButton.alt = 'Start Streaming';
     playButton = document.getElementById('player').appendChild(elementPlayButton);
     playButton.addEventListener('click', onClickPlayButton);
@@ -68,7 +68,7 @@ function onClickPlayButton() {
   // add fullscreen button
   const elementFullscreenButton = document.createElement('img');
   elementFullscreenButton.id = 'fullscreenButton';
-  elementFullscreenButton.src = 'images/FullScreen.png';
+  elementFullscreenButton.src = 'multiplay/images/FullScreen.png';
   playerDiv.appendChild(elementFullscreenButton);
   elementFullscreenButton.addEventListener("click", function () {
     if (!document.fullscreenElement || !document.webkitFullscreenElement) {

@@ -47,7 +47,7 @@ export class VideoPlayer {
     if(isTouchDevice()) {
       this.sender.addTouchscreen();
     }
-    this.sender.addGamepad();
+    //this.sender.addGamepad();
     this.inputRemoting = new InputRemoting(this.sender);
 
     // main video

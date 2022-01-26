@@ -1,55 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="css/main.css" />
-  <title>Unity Render Streaming Samples</title>
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="multiplay/css/style.css" />
+  <title>VR Graph Visualization</title>
 </head>
 
 <body>
+
   <div id="container">
-    <h1>Unity Render Streaming Samples</h1>
+    <h1>VR Graph Visualization Remote Viewer</h1>
+    <div id="warning" hidden=true></div>
 
-    <section>
-      <p>These are WebClient samples for use with <a href="https://docs.unity3d.com/Packages/com.unity.renderstreaming@latest/index.html">Unity Render
-          Streaming</a>.</p>
-    </section>
-
-    <section>
-      <div id="startup"></div>
-    </section>
-
-    <section>
-      <h2 id="receiver"><a href="receiver/index.html">Receiver Sample</a></h2>
-      <p>This is a sample for receiving video / audio from Unity.</p>
-      <p>It can be used in combination with the <code>Broadcast</code> scene of Unity Render Streaming.</p>
-    </section>
-
-    <section>
-      <h2 id="bidirectional"><a href="bidirectional/index.html">Bidirectional Sample</a></h2>
-      <p>This is a sample for sending and receiving video in both directions.</p>
-      <p>It can be used in combination with the <code>Bidirectional</code> scene of Unity Render Streaming.</p>
-      <p>The WebApp must be running in Private mode.</p>
-    </section>
-
-    <section>
-      <h2 id="multiplay"><a href="multiplay/index.html">Multiplay Sample</a></h2>
-      <p>This is a sample for sending and receiving video in both directions.</p>
-      <p>It can be used in combination with the <code>Bidirectional</code> scene of Unity Render Streaming.</p>
-      <p>The WebApp must be running in Private mode.</p>
-    </section>
-
-    <section>
-      <h2 id="videoplayer"><a href="videoplayer/index.html">VideoPlayer Sample</a></h2>
-      <p>This is a sample to receive the camera image rendered on Unity. You can operate the camera in Unity from the
-        browser.</p>
-      <p>It can be used in combination with the <code>WebBrowserInput</code> scene of Unity Render Streaming.</p>
-      <p>The WebApp must be running in Public mode.</p>
-    </section>
-
-    <section>
-      <a href="https://github.com/Unity-Technologies/UnityRenderStreaming/tree/develop/WebApp" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
-    </section>
+    <div id="player"></div>
+    
+    <h2>Controls:</h2>
+    <ul>
+        <li>Hold right click on the video, and move the mouse, to rotate the camera.</li>
+        <li>Use WASD to move forward, left, backward, and right respectively</li>
+        <li>Press space to go up, and shift to go down</li>
+        <li>Left click on a node to highlight it.  This is visible to all other users.</li>
+    </ul>
   </div>
 
-  <script type="module" src="js/main.js"></script>
+  <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="https://unpkg.com/event-target@latest/min.js"></script>
+  <script src="https://unpkg.com/resize-observer-polyfill@1.5.0/dist/ResizeObserver.global.js"></script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"></script>
+  <script type="module" src="multiplay/js/main.js"></script>
+
 </body>
+
+</html>
