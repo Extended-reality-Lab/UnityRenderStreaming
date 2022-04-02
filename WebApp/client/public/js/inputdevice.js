@@ -220,6 +220,8 @@ export class MouseState extends IInputState {
    */
   constructor(event) {
     super();
+
+    event.preventDefault();
     
     this.position = [event.clientX, event.clientY];
     this.delta = [event.movementX, -event.movementY];
@@ -240,6 +242,10 @@ export class MouseState extends IInputState {
     MemoryHelper.writeSingleBit(this.buttons, MouseButton.Middle, middle);
     MemoryHelper.writeSingleBit(this.buttons, MouseButton.Forward, forward);
     MemoryHelper.writeSingleBit(this.buttons, MouseButton.Back, back);
+
+    if (event.pointerType == "pen" && (event.pressure == 0 || event.pressure == 0.5)) {
+        this.buttons = new ArrayBuffer(2);
+    }
   }
 
   /**
@@ -394,7 +400,7 @@ export class TouchState {
     }
 
     this.touchId = touchId;
-    this.position = [touch.pageX, -touch.pageY];
+    this.position = [touch.clientX, touch.clientY];
     if(phaseId == TouchPhase.Moved) {
       this.delta = [this.position[0] - state.position[0], this.position[1] - state.position[1]];
     } else {

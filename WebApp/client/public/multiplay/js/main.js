@@ -18,14 +18,6 @@ window.document.oncontextmenu = function () {
   return false;     // cancel default menu
 };
 
-window.addEventListener('resize', function () {
-  videoPlayer.resizeVideo();
-}, true);
-
-window.addEventListener('beforeunload', async () => {
-  await videoPlayer.stop();
-}, true);
-
 async function setup() {
   const res = await getServerConfig();
   useWebSocket = res.useWebSocket;
@@ -88,6 +80,9 @@ function onClickPlayButton() {
   });
   document.addEventListener('webkitfullscreenchange', onFullscreenChange);
   document.addEventListener('fullscreenchange', onFullscreenChange);
+  document.addEventListener('pointercancel', e => {
+    console.log(e);
+  });
 
   function onFullscreenChange() {
     if (document.webkitFullscreenElement || document.fullscreenElement) {
@@ -105,12 +100,22 @@ async function setupVideoPlayer(elements) {
   const videoPlayer = new VideoPlayer(elements);
   await videoPlayer.setupConnection(useWebSocket);
 
-  elements[0].addEventListener('mousedown', e => {
-    elements[0].requestPointerLock = elements[0].requestPointerLock || elements[0].mozRequestPointerLock;
-    elements[0].requestPointerLock();
+  window.addEventListener('resize', function () {
+    videoPlayer.resizeVideo();
+  }, true);
+
+  window.addEventListener('beforeunload', async () => {
+    await videoPlayer.stop();
+  }, true);
+
+  elements[0].addEventListener('pointerdown', e => {
+    if (e.pointerType == "mouse" && e.button == 2) {
+      elements[0].requestPointerLock = elements[0].requestPointerLock || elements[0].mozRequestPointerLock;
+      elements[0].requestPointerLock();
+    }
   })
 
-  elements[0].addEventListener('mouseup', e => {
+  elements[0].addEventListener('pointerup', e => {
     document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
     document.exitPointerLock();
   })

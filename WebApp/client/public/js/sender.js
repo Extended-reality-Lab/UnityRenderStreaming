@@ -38,9 +38,9 @@ export class Sender extends LocalInputManager {
     this._devices.push(this.mouse);
 
     this._elem.addEventListener('click', this._onMouseEvent.bind(this), false);
-    this._elem.addEventListener('mousedown', this._onMouseEvent.bind(this), false);
-    this._elem.addEventListener('mouseup', this._onMouseEvent.bind(this), false);
-    this._elem.addEventListener('mousemove', this._onMouseEvent.bind(this), false);
+    this._elem.addEventListener('pointerdown', this._onMouseEvent.bind(this), false);
+    this._elem.addEventListener('pointerup', this._onMouseEvent.bind(this), false);
+    this._elem.addEventListener('pointermove', this._onMouseEvent.bind(this), false);
     this._elem.addEventListener('wheel', this._onWheelEvent.bind(this), false);
   }
 
@@ -115,9 +115,12 @@ export class Sender extends LocalInputManager {
     );
   }
   _onMouseEvent(event) {
-    this.mouse.queueEvent(event);
-    this.mouse.currentState.position = this._corrector.map(this.mouse.currentState.position);
-    this._queueStateEvent(this.mouse.currentState, this.mouse);
+    console.log(event);
+    if (event.pointerType != "touch") {
+      this.mouse.queueEvent(event);
+      this.mouse.currentState.position = this._corrector.map(this.mouse.currentState.position);
+      this._queueStateEvent(this.mouse.currentState, this.mouse);
+    }
   }
   _onWheelEvent(event) {
     this.mouse.queueEvent(event);
@@ -141,6 +144,7 @@ export class Sender extends LocalInputManager {
   _onTouchEvent(event) {
     this.touchscreen.queueEvent(event, this.timeSinceStartup);
     for(let touch of this.touchscreen.currentState.touchData) {
+      touch.position = this._corrector.map(touch.position);
       this._queueStateEvent(touch, this.touchscreen);
     }
   }
