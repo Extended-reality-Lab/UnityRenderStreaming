@@ -474,13 +474,17 @@ export class TouchscreenState extends IInputState {
 
     switch(event.type) {
       case 'click' : {
-        this.touchData = new Array(state.touchData.length);
-        for(let i = 0; i < state.touchData.length; i++) {
-          this.touchData[i] = state.touchData[i];
-          if(this.touchData[i].phaseId == TouchPhase.Ended) {
-            this.touchData[i].tapCount = 1;
-            this.touchData[i].flags |= TouchFlags.Tap;
+        if (state != null) {
+          this.touchData = new Array(state.touchData.length);
+          for(let i = 0; i < state.touchData.length; i++) {
+            this.touchData[i] = state.touchData[i];
+            if(this.touchData[i].phaseId == TouchPhase.Ended) {
+              this.touchData[i].tapCount = 1;
+              this.touchData[i].flags |= TouchFlags.Tap;
+            }
           }
+        } else {
+          this.touchData = new Array();
         }
         break;
       }

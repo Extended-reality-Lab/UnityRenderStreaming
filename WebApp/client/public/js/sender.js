@@ -21,7 +21,10 @@ export class Sender extends LocalInputManager {
       this._elem.videoHeight,
       this._elem.getBoundingClientRect()
       );
-    this._elem.addEventListener('resize', this._onResizeEvent.bind(this), false);
+    this._elem.addEventListener('resize', this._onResizeEvent.bind(this), {capture: false, once: true});
+    window.addEventListener('resize', this._onResizeEvent.bind(this), false); //is this redundant?
+    document.addEventListener('webkitfullscreenchange', this._onResizeEvent.bind(this), false);
+    document.addEventListener('fullscreenchange', this._onResizeEvent.bind(this), false);
   }
 
   addMouse() {
@@ -37,7 +40,7 @@ export class Sender extends LocalInputManager {
     this.mouse = new Mouse("Mouse", "Mouse", 1, "Default", descriptionMouse);
     this._devices.push(this.mouse);
 
-    this._elem.addEventListener('click', this._onMouseEvent.bind(this), false);
+    //this._elem.addEventListener('click', this._onMouseEvent.bind(this), false);
     this._elem.addEventListener('pointerdown', this._onMouseEvent.bind(this), false);
     this._elem.addEventListener('pointerup', this._onMouseEvent.bind(this), false);
     this._elem.addEventListener('pointermove', this._onMouseEvent.bind(this), false);
@@ -97,7 +100,7 @@ export class Sender extends LocalInputManager {
     this._elem.addEventListener('touchstart', this._onTouchEvent.bind(this), false);
     this._elem.addEventListener('touchcancel', this._onTouchEvent.bind(this), false);
     this._elem.addEventListener('touchmove', this._onTouchEvent.bind(this), false);
-    this._elem.addEventListener('click', this._onTouchEvent.bind(this), false);
+    //this._elem.addEventListener('click', this._onTouchEvent.bind(this), false);
   }
 
   /**
@@ -115,7 +118,6 @@ export class Sender extends LocalInputManager {
     );
   }
   _onMouseEvent(event) {
-    console.log(event);
     if (event.pointerType != "touch") {
       this.mouse.queueEvent(event);
       this.mouse.currentState.position = this._corrector.map(this.mouse.currentState.position);

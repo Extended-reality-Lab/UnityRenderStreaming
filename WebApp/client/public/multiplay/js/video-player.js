@@ -139,15 +139,31 @@ export class VideoPlayer {
   }
 
   resizeVideo() {
-    const clientRect = this.video.getBoundingClientRect();
-    const videoRatio = this.videoWidth / this.videoHeight;
-    const clientRatio = clientRect.width / clientRect.height;
+    let clientWidth;
+    let clientHeight;
+    let clientTop;
+    let clientLeft;
+    if (document.webkitFullscreenElement || document.fullscreenElement) {
+      clientWidth = window.innerWidth;
+      clientHeight = window.innerHeight;
+      clientTop = 0;
+      clientLeft = 0;
+    } else {
+      const clientRect = this.video.getBoundingClientRect();
+      clientWidth = clientRect.width;
+      clientHeight = clientRect.height;
+      clientTop = clientRect.top;
+      clientLeft = clientRect.left;
+    }
 
-    this._videoScale = videoRatio > clientRatio ? clientRect.width / this.videoWidth : clientRect.height / this.videoHeight;
-    const videoOffsetX = videoRatio > clientRatio ? 0 : (clientRect.width - this.videoWidth * this._videoScale) * 0.5;
-    const videoOffsetY = videoRatio > clientRatio ? (clientRect.height - this.videoHeight * this._videoScale) * 0.5 : 0;
-    this._videoOriginX = clientRect.left + videoOffsetX;
-    this._videoOriginY = clientRect.top + videoOffsetY;
+    const videoRatio = this.videoWidth / this.videoHeight;
+    const clientRatio = clientWidth / clientHeight;
+
+    this._videoScale = videoRatio > clientRatio ? clientWidth / this.videoWidth : clientHeight / this.videoHeight;
+    const videoOffsetX = videoRatio > clientRatio ? 0 : (clientWidth - this.videoWidth * this._videoScale) * 0.5;
+    const videoOffsetY = videoRatio > clientRatio ? (clientHeight - this.videoHeight * this._videoScale) * 0.5 : 0;
+    this._videoOriginX = clientLeft + videoOffsetX;
+    this._videoOriginY = clientTop + videoOffsetY;
   }
 
   get videoWidth() {

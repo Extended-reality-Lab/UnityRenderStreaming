@@ -55,8 +55,6 @@ function onClickPlayButton() {
   elementVideo.style.touchAction = 'none';
   playerDiv.appendChild(elementVideo);
 
-  setupVideoPlayer([elementVideo]).then(value => videoPlayer = value);
-
   // add fullscreen button
   const elementFullscreenButton = document.createElement('img');
   elementFullscreenButton.id = 'fullscreenButton';
@@ -94,15 +92,21 @@ function onClickPlayButton() {
       elementFullscreenButton.style.display = 'block';
     }
   }
+
+  setupVideoPlayer([elementVideo]).then(value => videoPlayer = value);
 }
 
 async function setupVideoPlayer(elements) {
   const videoPlayer = new VideoPlayer(elements);
   await videoPlayer.setupConnection(useWebSocket);
 
-  window.addEventListener('resize', function () {
+  window.addEventListener('resize', updateVideoSize, true);
+  //document.addEventListener('webkitfullscreenchange', updateVideoSize, true);
+  //document.addEventListener('fullscreenchange', updateVideoSize, true);
+
+  function updateVideoSize() {
     videoPlayer.resizeVideo();
-  }, true);
+  }
 
   window.addEventListener('beforeunload', async () => {
     await videoPlayer.stop();
