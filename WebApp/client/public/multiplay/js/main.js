@@ -55,6 +55,28 @@ function onClickPlayButton() {
   elementVideo.style.touchAction = 'none';
   playerDiv.appendChild(elementVideo);
 
+  //add instructions list
+  const elementInstructions = document.createElement('div')
+  elementInstructions.textContent = "These are some instructions"
+  elementInstructions.id = 'instructionsList'
+  elementInstructions.style.display = 'none'
+  playerDiv.appendChild(elementInstructions)
+  elementInstructions.addEventListener('click', function(){
+    elementInstructions.style.display = 'none'
+  })
+
+
+  //add instructions button
+  const elementInstructionsButton = document.createElement('img')
+  elementInstructionsButton.id = 'instructionsButton'
+  elementInstructionsButton.src = 'multiplay/images/questionJava.png'
+  playerDiv.appendChild(elementInstructionsButton)
+  elementInstructionsButton.addEventListener('click', function(){
+    
+    elementInstructions.style.display = 'block'
+  })
+
+
   // add fullscreen button
   const elementFullscreenButton = document.createElement('img');
   elementFullscreenButton.id = 'fullscreenButton';

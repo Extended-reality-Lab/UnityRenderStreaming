@@ -97,3 +97,20 @@ body {
   width: 32px;
   height: 32px;
 }
+
+#instructionsButton{
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 32px;
+  height: 32px;
+}
+
+#instructionsList{
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  background-color: aliceblue;
+  color: black;
+  justify-content: center;
+}
