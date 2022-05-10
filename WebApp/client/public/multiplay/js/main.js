@@ -55,25 +55,69 @@ function onClickPlayButton() {
   elementVideo.style.touchAction = 'none';
   playerDiv.appendChild(elementVideo);
 
-  //add instructions list
-  const elementInstructions = document.createElement('div')
-  elementInstructions.textContent = "These are some instructions"
-  elementInstructions.id = 'instructionsList'
-  elementInstructions.style.display = 'none'
-  playerDiv.appendChild(elementInstructions)
-  elementInstructions.addEventListener('click', function(){
-    elementInstructions.style.display = 'none'
+  //add UI instructions list
+  const UIInstructions = document.createElement('img')
+  UIInstructions.id = 'UIInstructionsList'
+  UIInstructions.src = 'multiplay/images/InstructionPanel1.png'
+  UIInstructions.style.display = 'none'
+  playerDiv.appendChild(UIInstructions)
+  UIInstructions.addEventListener('click', function(){
+    UIInstructions.style.display = 'none'
+    controlInstructionsButton.style.display = 'none'
+    UIInstructionsButton.style.display = 'none'
   })
 
+  //add control instructions list
+  const controlInstructions = document.createElement('img')
+  controlInstructions.id = 'controlInstructionsList'
+  controlInstructions.src = 'multiplay/images/InstructionPanel2.png'
+  controlInstructions.style.display = 'none'
+  playerDiv.appendChild(controlInstructions)
+  controlInstructions.addEventListener('click', function(){
+    controlInstructions.style.display = 'none'
+    controlInstructionsButton.style.display = 'none'
+    UIInstructionsButton.style.display = 'none'
+  })
 
-  //add instructions button
+  //add help button
   const elementInstructionsButton = document.createElement('img')
   elementInstructionsButton.id = 'instructionsButton'
   elementInstructionsButton.src = 'multiplay/images/questionJava.png'
   playerDiv.appendChild(elementInstructionsButton)
   elementInstructionsButton.addEventListener('click', function(){
     
-    elementInstructions.style.display = 'block'
+    if(controlInstructionsButton.style.display == 'none'){
+      controlInstructionsButton.style.display = 'block'
+      UIInstructionsButton.style.display = 'block'
+    }
+    else{
+      controlInstructionsButton.style.display = 'none'
+      UIInstructionsButton.style.display = 'none'
+    }
+  })
+
+  //add controls instructions button
+  const controlInstructionsButton = document.createElement('img')
+  controlInstructionsButton.id = 'controlInstructionsButton'
+  controlInstructionsButton.src = 'multiplay/images/controlQuestions.png'
+  controlInstructionsButton.style.display = 'none'
+  playerDiv.appendChild(controlInstructionsButton)
+  controlInstructionsButton.addEventListener('click', function(){
+
+    controlInstructions.style.display = 'block'
+    UIInstructions.style.display = 'none'
+  })
+
+  //add UI instructions button
+  const UIInstructionsButton = document.createElement('img')
+  UIInstructionsButton.id = 'UIInstructionsButton'
+  UIInstructionsButton.src = 'multiplay/images/UIQuestions.png'
+  UIInstructionsButton.style.display = 'none'
+  playerDiv.appendChild(UIInstructionsButton)
+  UIInstructionsButton.addEventListener('click', function(){
+
+    UIInstructions.style.display = 'block'
+    controlInstructions.style.display = 'none'
   })
 
 

@@ -106,11 +106,32 @@ body {
   height: 32px;
 }
 
-#instructionsList{
+#controlInstructionsButton{
+  position: absolute;
+  top: 25px;
+  left: 75px;
+  width: auto;
+  height: 32px;
+}
+
+#UIInstructionsButton{
+  position: absolute;
+  top: 25px;
+  left: 220px;
+  width: 32px;
+  height: 32px;
+}
+
+#controlInstructionsList{
   position: absolute;
   width: 50%;
-  height: 50%;
-  background-color: aliceblue;
-  color: black;
+  height: auto;
+  justify-content: center;
+}
+
+#UIInstructionsList{
+  position: absolute;
+  width: 50%;
+  height: auto;
   justify-content: center;
 }
