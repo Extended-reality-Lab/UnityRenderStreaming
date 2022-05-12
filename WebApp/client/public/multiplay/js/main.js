@@ -47,6 +47,8 @@ function showPlayButton() {
 function onClickPlayButton() {
   playButton.style.display = 'none';
 
+
+  const backdropDiv = document.getElementById('backdrop');
   const playerDiv = document.getElementById('player');
 
   // add video player
@@ -65,10 +67,12 @@ function onClickPlayButton() {
     UIInstructions.style.display = 'none'
     controlInstructionsButton.style.display = 'none'
     UIInstructionsButton.style.display = 'none'
+    backdropDiv.classList.toggle('hidden')
   })
 
   //add control instructions list
   const controlInstructions = document.createElement('img')
+  controlInstructions.style.zIndex = 200;
   controlInstructions.id = 'controlInstructionsList'
   controlInstructions.src = 'multiplay/images/InstructionPanel2.png'
   controlInstructions.style.display = 'none'
@@ -77,6 +81,7 @@ function onClickPlayButton() {
     controlInstructions.style.display = 'none'
     controlInstructionsButton.style.display = 'none'
     UIInstructionsButton.style.display = 'none'
+    backdropDiv.classList.toggle('hidden')
   })
 
   //add help button
@@ -104,8 +109,15 @@ function onClickPlayButton() {
   playerDiv.appendChild(controlInstructionsButton)
   controlInstructionsButton.addEventListener('click', function(){
 
-    controlInstructions.style.display = 'block'
-    UIInstructions.style.display = 'none'
+    if(controlInstructions.style.display == 'none'){
+      controlInstructions.style.display = 'block'
+      UIInstructions.style.display = 'none'
+      backdropDiv.classList.toggle('hidden')
+    }
+    else{
+      controlInstructions.style.display = 'none'
+      backdropDiv.classList.toggle('hidden')
+    }
   })
 
   //add UI instructions button
@@ -116,8 +128,15 @@ function onClickPlayButton() {
   playerDiv.appendChild(UIInstructionsButton)
   UIInstructionsButton.addEventListener('click', function(){
 
-    UIInstructions.style.display = 'block'
-    controlInstructions.style.display = 'none'
+    if(UIInstructions.style.display == 'none'){
+      UIInstructions.style.display = 'block'
+      controlInstructions.style.display = 'none'
+      backdropDiv.classList.toggle('hidden')
+    }
+    else{
+      UIInstructions.style.display = 'none'
+      backdropDiv.classList.toggle('hidden')
+    }
   })
 
 
