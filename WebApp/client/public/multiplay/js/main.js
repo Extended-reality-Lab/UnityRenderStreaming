@@ -44,6 +44,7 @@ function showPlayButton() {
   }
 }
 
+
 function onClickPlayButton() {
   playButton.style.display = 'none';
 
@@ -59,6 +60,7 @@ function onClickPlayButton() {
 
   //add UI instructions list
   const UIInstructions = document.createElement('img')
+  UIInstructions.style.zIndex = 200;
   UIInstructions.id = 'UIInstructionsList'
   UIInstructions.src = 'multiplay/images/InstructionPanel1.png'
   UIInstructions.style.display = 'none'
@@ -86,6 +88,7 @@ function onClickPlayButton() {
 
   //add help button
   const elementInstructionsButton = document.createElement('img')
+  elementInstructionsButton.style.zIndex = 200;
   elementInstructionsButton.id = 'instructionsButton'
   elementInstructionsButton.src = 'multiplay/images/questionJava.png'
   playerDiv.appendChild(elementInstructionsButton)
@@ -103,6 +106,7 @@ function onClickPlayButton() {
 
   //add controls instructions button
   const controlInstructionsButton = document.createElement('img')
+  controlInstructionsButton.style.zIndex = 200;
   controlInstructionsButton.id = 'controlInstructionsButton'
   controlInstructionsButton.src = 'multiplay/images/controlQuestions.png'
   controlInstructionsButton.style.display = 'none'
@@ -112,16 +116,21 @@ function onClickPlayButton() {
     if(controlInstructions.style.display == 'none'){
       controlInstructions.style.display = 'block'
       UIInstructions.style.display = 'none'
-      backdropDiv.classList.toggle('hidden')
+      //if the backdrop is hidden, show it
+      if(backdropDiv.classList.contains('hidden')){
+        backdropDiv.classList.remove('hidden')
+      }
     }
     else{
       controlInstructions.style.display = 'none'
-      backdropDiv.classList.toggle('hidden')
+      backdropDiv.classList.add('hidden')
     }
+
   })
 
   //add UI instructions button
   const UIInstructionsButton = document.createElement('img')
+  UIInstructionsButton.style.zIndex = 200;
   UIInstructionsButton.id = 'UIInstructionsButton'
   UIInstructionsButton.src = 'multiplay/images/UIQuestions.png'
   UIInstructionsButton.style.display = 'none'
@@ -131,16 +140,28 @@ function onClickPlayButton() {
     if(UIInstructions.style.display == 'none'){
       UIInstructions.style.display = 'block'
       controlInstructions.style.display = 'none'
-      backdropDiv.classList.toggle('hidden')
+          //if the backdrop is hidden, show it
+      if(backdropDiv.classList.contains('hidden')){
+        backdropDiv.classList.remove('hidden')
+      }
     }
     else{
       UIInstructions.style.display = 'none'
-      backdropDiv.classList.toggle('hidden')
+      backdropDiv.classList.add('hidden')
     }
+
+  })
+
+  backdropDiv.addEventListener('click', function(){
+    backdropDiv.classList.toggle('hidden')
+    UIInstructions.style.display = 'none'
+    controlInstructions.style.display = 'none'
+    controlInstructionsButton.style.display = 'none'
+    UIInstructionsButton.style.display = 'none'
   })
 
 
-  // add fullscreen button
+  //add fullscreen button
   const elementFullscreenButton = document.createElement('img');
   elementFullscreenButton.id = 'fullscreenButton';
   elementFullscreenButton.src = 'multiplay/images/FullScreen.png';
@@ -149,6 +170,7 @@ function onClickPlayButton() {
     if (!document.fullscreenElement || !document.webkitFullscreenElement) {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
+        console.log("sus")
       }
       else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
@@ -161,6 +183,7 @@ function onClickPlayButton() {
       }
     }
   });
+
   document.addEventListener('webkitfullscreenchange', onFullscreenChange);
   document.addEventListener('fullscreenchange', onFullscreenChange);
   document.addEventListener('pointercancel', e => {

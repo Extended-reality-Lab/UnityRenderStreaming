@@ -92,23 +92,23 @@ body {
 
 #fullscreenButton {
   position: absolute;
-  top: 25px;
-  right: 25px;
+  top: 15px;
+  right: 15px;
   width: 32px;
   height: 32px;
 }
 
 #instructionsButton{
   position: absolute;
-  top: 25px;
-  left: 25px;
+  top: 15px;
+  left: 15px;
   width: 32px;
   height: 32px;
 }
 
 #controlInstructionsButton{
   position: absolute;
-  top: 25px;
+  top: 15px;
   left: 75px;
   width: auto;
   height: 32px;
@@ -116,7 +116,7 @@ body {
 
 #UIInstructionsButton{
   position: absolute;
-  top: 25px;
+  top: 15px;
   left: 220px;
   width: 32px;
   height: 32px;
