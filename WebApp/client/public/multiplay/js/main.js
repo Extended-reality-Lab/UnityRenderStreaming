@@ -160,13 +160,7 @@ function onClickPlayButton() {
     UIInstructionsButton.style.display = 'none'
   })
 
-
-  //add fullscreen button
-  const elementFullscreenButton = document.createElement('img');
-  elementFullscreenButton.id = 'fullscreenButton';
-  elementFullscreenButton.src = 'multiplay/images/FullScreen.png';
-  playerDiv.appendChild(elementFullscreenButton);
-  elementFullscreenButton.addEventListener("click", function () {
+  function goFullScreeen() {
     if (!document.fullscreenElement || !document.webkitFullscreenElement) {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
@@ -182,7 +176,34 @@ function onClickPlayButton() {
         }
       }
     }
-  });
+  };
+
+  goFullScreeen()
+
+
+
+  //add fullscreen button
+  // const elementFullscreenButton = document.createElement('img');
+  // elementFullscreenButton.id = 'fullscreenButton';
+  // elementFullscreenButton.src = 'multiplay/images/FullScreen.png';
+  // playerDiv.appendChild(elementFullscreenButton);
+  // elementFullscreenButton.addEventListener("click", function () {
+  //   if (!document.fullscreenElement || !document.webkitFullscreenElement) {
+  //     if (document.documentElement.requestFullscreen) {
+  //       document.documentElement.requestFullscreen();
+  //       console.log("sus")
+  //     }
+  //     else if (document.documentElement.webkitRequestFullscreen) {
+  //       document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+  //     } else {
+  //       if (playerDiv.style.position == "absolute") {
+  //         playerDiv.style.position = "relative";
+  //       } else {
+  //         playerDiv.style.position = "absolute";
+  //       }
+  //     }
+  //   }
+  // });
 
   document.addEventListener('webkitfullscreenchange', onFullscreenChange);
   document.addEventListener('fullscreenchange', onFullscreenChange);
