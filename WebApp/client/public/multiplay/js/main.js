@@ -160,7 +160,14 @@ function onClickPlayButton() {
     UIInstructionsButton.style.display = 'none'
   })
 
-  function goFullScreeen() {
+
+
+  const elementFullscreenButton = document.createElement('img');
+  elementFullscreenButton.id = 'fullscreenButton';
+  elementFullscreenButton.src = 'multiplay/images/FullScreen.png';
+  playerDiv.appendChild(elementFullscreenButton);
+
+  function goFullScreen(event) {
     if (!document.fullscreenElement || !document.webkitFullscreenElement) {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
@@ -178,7 +185,9 @@ function onClickPlayButton() {
     }
   };
 
-  goFullScreeen()
+  elementFullscreenButton.addEventListener("click", goFullScreen)
+
+  goFullScreen()
 
 
 
@@ -187,7 +196,7 @@ function onClickPlayButton() {
   // elementFullscreenButton.id = 'fullscreenButton';
   // elementFullscreenButton.src = 'multiplay/images/FullScreen.png';
   // playerDiv.appendChild(elementFullscreenButton);
-  // elementFullscreenButton.addEventListener("click", function () {
+  // elementFullscreenButton.addEventListener("click",  goFullScreen)
   //   if (!document.fullscreenElement || !document.webkitFullscreenElement) {
   //     if (document.documentElement.requestFullscreen) {
   //       document.documentElement.requestFullscreen();
