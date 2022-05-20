@@ -1,9 +1,9 @@
-import { 
-  VideoPlayer 
+import {
+  VideoPlayer
 } from "./video-player.js";
 
-import { 
-  getServerConfig 
+import {
+  getServerConfig
 } from "../../js/config.js";
 
 import { registerGamepadEvents, registerKeyboardEvents, registerMouseEvents, sendClickEvent } from "../../js/register-events.js";
@@ -65,7 +65,7 @@ function onClickPlayButton() {
   UIInstructions.src = 'multiplay/images/InstructionPanel1.png'
   UIInstructions.style.display = 'none'
   playerDiv.appendChild(UIInstructions)
-  UIInstructions.addEventListener('click', function(){
+  UIInstructions.addEventListener('click', function () {
     UIInstructions.style.display = 'none'
     controlInstructionsButton.style.display = 'none'
     UIInstructionsButton.style.display = 'none'
@@ -79,7 +79,7 @@ function onClickPlayButton() {
   controlInstructions.src = 'multiplay/images/InstructionPanel2.png'
   controlInstructions.style.display = 'none'
   playerDiv.appendChild(controlInstructions)
-  controlInstructions.addEventListener('click', function(){
+  controlInstructions.addEventListener('click', function () {
     controlInstructions.style.display = 'none'
     controlInstructionsButton.style.display = 'none'
     UIInstructionsButton.style.display = 'none'
@@ -92,13 +92,13 @@ function onClickPlayButton() {
   elementInstructionsButton.id = 'instructionsButton'
   elementInstructionsButton.src = 'multiplay/images/questionJava.png'
   playerDiv.appendChild(elementInstructionsButton)
-  elementInstructionsButton.addEventListener('click', function(){
-    
-    if(controlInstructionsButton.style.display == 'none'){
+  elementInstructionsButton.addEventListener('click', function () {
+
+    if (controlInstructionsButton.style.display == 'none') {
       controlInstructionsButton.style.display = 'block'
       UIInstructionsButton.style.display = 'block'
     }
-    else{
+    else {
       controlInstructionsButton.style.display = 'none'
       UIInstructionsButton.style.display = 'none'
     }
@@ -111,17 +111,17 @@ function onClickPlayButton() {
   controlInstructionsButton.src = 'multiplay/images/controlQuestions.png'
   controlInstructionsButton.style.display = 'none'
   playerDiv.appendChild(controlInstructionsButton)
-  controlInstructionsButton.addEventListener('click', function(){
+  controlInstructionsButton.addEventListener('click', function () {
 
-    if(controlInstructions.style.display == 'none'){
+    if (controlInstructions.style.display == 'none') {
       controlInstructions.style.display = 'block'
       UIInstructions.style.display = 'none'
       //if the backdrop is hidden, show it
-      if(backdropDiv.classList.contains('hidden')){
+      if (backdropDiv.classList.contains('hidden')) {
         backdropDiv.classList.remove('hidden')
       }
     }
-    else{
+    else {
       controlInstructions.style.display = 'none'
       backdropDiv.classList.add('hidden')
     }
@@ -135,24 +135,24 @@ function onClickPlayButton() {
   UIInstructionsButton.src = 'multiplay/images/UIQuestions.png'
   UIInstructionsButton.style.display = 'none'
   playerDiv.appendChild(UIInstructionsButton)
-  UIInstructionsButton.addEventListener('click', function(){
+  UIInstructionsButton.addEventListener('click', function () {
 
-    if(UIInstructions.style.display == 'none'){
+    if (UIInstructions.style.display == 'none') {
       UIInstructions.style.display = 'block'
       controlInstructions.style.display = 'none'
-          //if the backdrop is hidden, show it
-      if(backdropDiv.classList.contains('hidden')){
+      //if the backdrop is hidden, show it
+      if (backdropDiv.classList.contains('hidden')) {
         backdropDiv.classList.remove('hidden')
       }
     }
-    else{
+    else {
       UIInstructions.style.display = 'none'
       backdropDiv.classList.add('hidden')
     }
 
   })
 
-  backdropDiv.addEventListener('click', function(){
+  backdropDiv.addEventListener('click', function () {
     backdropDiv.classList.toggle('hidden')
     UIInstructions.style.display = 'none'
     controlInstructions.style.display = 'none'
@@ -175,12 +175,6 @@ function onClickPlayButton() {
       }
       else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      } else {
-        if (playerDiv.style.position == "absolute") {
-          playerDiv.style.position = "relative";
-        } else {
-          playerDiv.style.position = "absolute";
-        }
       }
     }
   };
@@ -222,11 +216,9 @@ function onClickPlayButton() {
 
   function onFullscreenChange() {
     if (document.webkitFullscreenElement || document.fullscreenElement) {
-      playerDiv.style.position = "absolute";
       elementFullscreenButton.style.display = 'none';
     }
     else {
-      playerDiv.style.position = "relative";
       elementFullscreenButton.style.display = 'block';
     }
   }
