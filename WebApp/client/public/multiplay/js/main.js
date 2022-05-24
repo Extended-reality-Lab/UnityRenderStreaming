@@ -97,14 +97,23 @@ function onClickPlayButton() {
     if (controlInstructionsButton.style.display == 'none') {
       controlInstructionsButton.style.display = 'block'
       UIInstructionsButton.style.display = 'block'
+      elementInstructionsButton.classList.add('border')
+      backdropDiv.classList.remove('hidden')
     }
     else {
       controlInstructionsButton.style.display = 'none'
       UIInstructionsButton.style.display = 'none'
+      elementInstructionsButton.classList.remove('border')
+      UIInstructionsButton.classList.remove('border')
+      controlInstructionsButton.classList.remove('border')
+      UIInstructions.style.display = 'none'
+      controlInstructions.style.display = 'none'
+      backdropDiv.classList.add('hidden')
+
     }
   })
 
-  //add controls instructions button
+  //add controls instructions buttons
   const controlInstructionsButton = document.createElement('img')
   controlInstructionsButton.style.zIndex = 200;
   controlInstructionsButton.id = 'controlInstructionsButton'
@@ -115,6 +124,8 @@ function onClickPlayButton() {
 
     if (controlInstructions.style.display == 'none') {
       controlInstructions.style.display = 'block'
+      controlInstructionsButton.classList.add('border')
+      UIInstructionsButton.classList.remove('border')
       UIInstructions.style.display = 'none'
       //if the backdrop is hidden, show it
       if (backdropDiv.classList.contains('hidden')) {
@@ -123,12 +134,13 @@ function onClickPlayButton() {
     }
     else {
       controlInstructions.style.display = 'none'
+      controlInstructionsButton.classList.remove('border')
       backdropDiv.classList.add('hidden')
     }
 
   })
 
-  //add UI instructions button
+  //add UI instructions buttons
   const UIInstructionsButton = document.createElement('img')
   UIInstructionsButton.style.zIndex = 200;
   UIInstructionsButton.id = 'UIInstructionsButton'
@@ -140,6 +152,8 @@ function onClickPlayButton() {
     if (UIInstructions.style.display == 'none') {
       UIInstructions.style.display = 'block'
       controlInstructions.style.display = 'none'
+      UIInstructionsButton.classList.add('border')
+      controlInstructionsButton.classList.remove('border')
       //if the backdrop is hidden, show it
       if (backdropDiv.classList.contains('hidden')) {
         backdropDiv.classList.remove('hidden')
@@ -148,6 +162,7 @@ function onClickPlayButton() {
     else {
       UIInstructions.style.display = 'none'
       backdropDiv.classList.add('hidden')
+      UIInstructionsButton.classList.remove('border')
     }
 
   })
@@ -158,6 +173,9 @@ function onClickPlayButton() {
     controlInstructions.style.display = 'none'
     controlInstructionsButton.style.display = 'none'
     UIInstructionsButton.style.display = 'none'
+    UIInstructionsButton.classList.remove('border')
+    controlInstructionsButton.classList.remove('border')
+    elementInstructionsButton.classList.remove('border')
   })
 
 
