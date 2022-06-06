@@ -9,7 +9,7 @@ export function getRTCConfiguration() {
   config.sdpSemantics = 'unified-plan';
   config.iceServers = [
   { urls: ['stun:stun.l.google.com:19302'] },
-  { urls: ['turn:159.65.110.8:8082'], username: 'username', credential: 'password' }
+  { urls: ['turn:147.182.229.16:3478'], username: 'username', credential: 'password' }
   ];
   return config;
 }
